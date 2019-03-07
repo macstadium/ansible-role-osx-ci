@@ -1,0 +1,69 @@
+- name: Add ci user group
+  become: true
+  group:
+    name: "{{ ci_user_group }}"
+
+- name: Add ci user
+  become: true
+  user:
+    name: "{{ ci_user }}"
+    uid: "{{ ci_user_uid }}"
+    group: "{{ ci_user_group }}"
+
+- name: Create ci user keychain
+  become: true
+  become_user: "{{ ci_user }}"
+  keychain:
+    name: "{{ ci_user_default_keychain }}"
+    password: "{{ ci_user_default_keychain_password }}"
+
+- name: Set authorized key taken from file
+  become: true
+  authorized_key:
+    user: "{{ ci_user }}"
+    key: "{{ lookup('file', ci_user_public_key_location) }}"
+
+- name: Enable remote login
+  remote_login:
+    user: "{{ ci_user }}"
+    state: enable
+  become: true
+
+- name: Installing homebrew
+  script: >
+    homebrew.sh {{ ansible_become_user | default(ansible_ssh_user) }}
+    {{ ansible_become_pass }}
+  args:
+    creates: '/usr/local/bin/brew'
+
+- name: Update Homebrew
+  homebrew:
+    update_homebrew: true
+
+- name: Install cask versions
+  homebrew_tap:
+    name: homebrew/cask-versions
+
+- name: Installing homebrew cask packages
+  x_homebrew_cask:
+    name: "{{ item }}"
+    sudo_password: "{{ ansible_become_pass }}"
+  with_items: "{{ cask_packages }}"
+
+- name: Installing global gems
+  gem:
+    name: "{{ item }}"
+    user_install: false
+  with_items: "{{ ruby_gems }}"
+  become: true
+
+- name: Installing homebrew packages
+  homebrew:
+    name: "{{ item }}"
+  with_items: "{{ homebrew_packages }}"
+  when: homebrew_packages is defined
+
+- name: Installing node 10 LTS
+  homebrew:
+    name: node@10
+  notify: Link Node 10 LTS

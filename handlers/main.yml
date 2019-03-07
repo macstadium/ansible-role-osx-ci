@@ -1,0 +1,5 @@
+- name: Link Node 10 LTS
+  homebrew:
+    name: node@10
+    state: linked
+    install_options: force

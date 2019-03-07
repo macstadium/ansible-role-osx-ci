@@ -1,0 +1,12 @@
+ci_user: ci_user
+ci_user_uid: 5013
+ci_user_group: ci_user
+ci_user_default_keychain: login.keychain
+cask_packages: ['java8']
+ruby_gems: ['fastlane', 'cocoapods']
+
+# Additional variables:
+
+# ci_user_public_key_location - REQUIRED
+# ci_user_default_keychain_password - REQUIRED
+# homebrew_packages
