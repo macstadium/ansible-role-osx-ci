@@ -1,6 +1,7 @@
 # Ansible Role: OSX-CI
 
 ![GPL-3.0 licensed][badge-license]
+[![Build Status](https://travis-ci.org/macstadium/ansible-role-osx-ci.svg?branch=master)](https://travis-ci.org/macstadium/ansible-role-osx-ci)
 
 Installs and configures software tools needed for building & deploying OSX/iOS applications.
 The configured Mac machine can be used as a Jenkins agent.
