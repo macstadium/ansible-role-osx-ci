@@ -59,8 +59,7 @@
 
 - name: Installing homebrew packages
   homebrew:
-    name: "{{ item }}"
-  with_items: "{{ homebrew_packages }}"
+    name: "{{ homebrew_packages }}"
   when: homebrew_packages is defined
 
 - name: Installing node 10 LTS
