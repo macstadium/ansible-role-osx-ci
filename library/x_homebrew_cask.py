@@ -587,7 +587,7 @@ class HomebrewCask(object):
             raise HomebrewCaskException(self.message)
 
         opts = (
-            [self.brew_path, 'cask', 'install', self.current_cask]
+            [self.brew_path, 'install', '--cask' self.current_cask]
             + self.install_options
         )
 
