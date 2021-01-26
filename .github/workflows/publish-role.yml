@@ -37,14 +37,14 @@ jobs:
         
       - name: Run ansible lint
         working-directory: tests
-        run: ansible-lint site.yml
+        run: ansible-lint site.yml -c ../.ansible-lint
         
       - name: Verify syntax
         working-directory: tests
         run: ansible-playbook site.yml --syntax-check
 
   publish:
-    if: github.event.inputs.shouldPublishImage == 'yes' || github.ref == 'refs/heads/master')
+    if: github.event.inputs.shouldPublishImage == 'yes' || github.ref == 'refs/heads/master'
     needs: ci
     runs-on: ubuntu-latest
     steps:
